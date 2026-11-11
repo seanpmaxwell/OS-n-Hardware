@@ -1,5 +1,5 @@
-# os-level-scripts
-Collection of scripts I find useful for my operating systems
+# Operation Systems and Hardware
+Collection of notes and scripts I find useful for my various setups.
 
 
 ## Table of Contents
