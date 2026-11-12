@@ -1,4 +1,11 @@
-## Unlink OneDrive from Windows 11
+# Remove Windows11 bloat
+
+## Basics
+- Uninstall CoPilot
+
+## Purge OneDrive
+
+### Unlink OneDrive from Windows 11
 To unlink OneDrive from Windows 11, you can do this directly through the OneDrive settings menu. This stops OneDrive from syncing your files while keeping your local and cloud files safe.
 
 Here are the step-by-step instructions:
@@ -25,7 +32,7 @@ Click **Unlink account** in the confirmation box.
 ---
 
 
-## Change pointers
+### Change pointers
 
 ```powershell
 $key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders'
@@ -50,7 +57,7 @@ foreach ($name in $item.GetValueNames()) {
 Stop-Process -Name explorer -Force
 ```
 
-### Move files
+#### Move files
 
 ```powershell
 robocopy "C:\Users\spmax\OneDrive\Documents" "C:\Users\spmax\Documents" /E /MOVE
