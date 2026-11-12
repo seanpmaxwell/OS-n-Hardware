@@ -1,7 +1,19 @@
 # Remove Windows11 bloat
 
-## Basics
-- Uninstall CoPilot
+## Basic Uninstalls
+- CoPilot
+- Microsoft To Do
+- Sticky Notes
+- Clipchamp
+- Microsoft Movie Maker (if it's there)
+- Outlook (new)
+- Microsoft Teams
+- Microsoft Office 365 (if it's there)
+- Feedback Hub (sending diagnostics to Microsoft)
+- Power Automate (automating workflows in Windows)
+- Microsoft Family Safety (aka Family)
+- Quick Assist
+- Maps
 
 ## Purge OneDrive
 
