@@ -12,7 +12,7 @@
 - Feedback Hub (sending diagnostics to Microsoft)
 - Power Automate (automating workflows in Windows)
 - Microsoft Family Safety (aka Family)
-- Quick Assist
+- Quick Assist (for remote troubleshooting, is a security vulnerability)
 - Maps
 
 ## Purge OneDrive
