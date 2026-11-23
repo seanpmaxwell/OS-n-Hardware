@@ -1,15 +1,6 @@
-# Cloning a WSL Distro, Customizing It, and Connecting USB Devices
+# Cloning a WSL Distro
  
 This guide shows how to make an independent copy of an existing WSL distribution, give the copy its own hostname and default user, and pass USB devices through to it.
- 
-Throughout the guide, replace these placeholders with your own values:
- 
-| Placeholder | Meaning | Example |
-|---|---|---|
-| `<SourceDistro>` | Name of the distro you're copying | `Ubuntu` |
-| `<NewDistro>` | Name for the clone | `Ubuntu-Dev` |
-| `<username>` | Your Linux username inside the distro | `alex` |
-| `<BUSID>` | Bus ID of the USB device (from `usbipd list`) | `1-4` |
  
 ---
  
