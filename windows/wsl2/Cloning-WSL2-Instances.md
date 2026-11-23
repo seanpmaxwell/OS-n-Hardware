@@ -1,4 +1,3 @@
-[Cloning-WSL-Instances.md](https://github.com/user-attachments/files/35301264/Cloning-WSL-Instances.md)
 # Cloning a WSL Distro, Customizing It, and Connecting USB Devices
  
 This guide shows how to make an independent copy of an existing WSL distribution, give the copy its own hostname and default user, and pass USB devices through to it.
