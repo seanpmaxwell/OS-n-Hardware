@@ -1,5 +1,5 @@
-apt-get update;
-apt-get upgrade -y;
-apt-get dist-upgrade -y;
-apt-get autoremove -y;
-apt-get clean;
+sudo apt-get update;
+sudo apt-get upgrade -y;
+sudo apt-get dist-upgrade -y;
+sudo apt-get autoremove -y;
+sudo apt-get clean;
