@@ -107,33 +107,6 @@ sudo visudo -cf /etc/sudoers.d/homebrew
 
 You want `parsed OK`.
 
-### If you prefer the editor
-
-```bash
-sudo visudo -f /etc/sudoers.d/homebrew
-```
-
-In `vi`, press `i` to insert, type only the rule line, press `Esc`, then type `:wq`.
-
-### Common mistake: pasting the command into the file
-
-If you see an error like this:
-
-```
-/etc/sudoers.d/homebrew:1:13: syntax error
-sudo visudo -f /etc/sudoers.d/homebrew
-            ^~
-What now?
-```
-
-the file contains the command text instead of the rule. At the `What now?` prompt:
-
-- Type `x` and press Enter to exit **without saving**.
-- Do **not** choose `Q`, which saves the broken file anyway.
-- Rewrite the file using the direct-write commands above.
-
-A sudoers syntax error can break `sudo` entirely, so confirm `sudo -v` still works from your admin account afterward.
-
 ## Step 6: Verify the sudoers setup
 
 ```bash
