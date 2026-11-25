@@ -178,3 +178,35 @@ Then give that user the `~/.zshrc` lines from Step 7.
 - `/opt/homebrew` is owned by `brewadmin`, a standard (non-admin) user.
 - Members of `brewsters` run `brew` through `sudo -u brewadmin`, with no password.
 - The sudoers rule permits only `/opt/homebrew/bin/brew`, as `brewadmin`.
+
+## Example of copying library (font) from homebrew to a non admin account
+
+Yes. You can pass the files through `/Users/Shared`, which both accounts can access. This installs the font just for `bob` and doesn't need `sudo`. Run these from `bob`'s Terminal.
+
+**1. Copy the fonts to the shared folder** (enter `brewadmin`'s password when asked):
+
+```bash
+su - brewadmin -c 'mkdir -p /Users/Shared/jbfonts && cp ~/Library/Fonts/JetBrainsMono*.ttf /Users/Shared/jbfonts/ && chmod -R a+rX /Users/Shared/jbfonts'
+```
+
+**2. Copy them into your own Fonts folder:**
+
+```bash
+mkdir -p ~/Library/Fonts && cp /Users/Shared/jbfonts/*.ttf ~/Library/Fonts/
+```
+
+**3. Remove the temporary folder** (`brewadmin`'s password again):
+
+```bash
+su - brewadmin -c 'rm -r /Users/Shared/jbfonts'
+```
+
+Then quit Terminal with **⌘Q**, reopen it, and choose **JetBrainsMono Nerd Font Mono** under **Settings → Profiles → Text**.
+
+If step 1 says `no matches found` or `No such file or directory`, the fonts aren't in `brewadmin`'s Fonts folder. This command will show whether Homebrew installed them and where:
+
+```bash
+su - brewadmin -c 'eval "$(/opt/homebrew/bin/brew shellenv)"; brew list --cask font-jetbrains-mono-nerd-font'
+```
+
+On an Intel Mac, replace `/opt/homebrew` with `/usr/local`.
