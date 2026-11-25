@@ -7,14 +7,14 @@ A walkthrough for setting up one dedicated Homebrew account that owns the instal
 | Dedicated Homebrew owner (standard user) | `brewadmin` |
 | Your regular admin account | `adminuser` |
 | Other users who need `brew` | `alice`, `bob` |
-| Group allowed to use brew | `brewusers` |
+| Group allowed to use brew | `brewsters` |
 
 Assumes Apple Silicon, where Homebrew lives in `/opt/homebrew`.
 
 ## How it works
 
 - `brewadmin` owns `/opt/homebrew` and is the only account that ever writes to it.
-- Members of the `brewusers` group run `brew` as `brewadmin` via `sudo -u`.
+- Members of the `brewsters` group run `brew` as `brewadmin` via `sudo -u`.
 - A sudoers rule allows exactly one command (`/opt/homebrew/bin/brew`) and nothing broader.
 
 This keeps permissions clean. Several users writing to the same Homebrew tree can break each other's installs, and Git may complain about "dubious ownership" in a shared-write setup.
@@ -67,10 +67,10 @@ dscl . list /Users | grep -v '^_'
 Then:
 
 ```bash
-sudo dseditgroup -o create brewusers
-sudo dseditgroup -o edit -a alice -t user brewusers
-sudo dseditgroup -o edit -a bob -t user brewusers
-dseditgroup -o read brewusers
+sudo dseditgroup -o create brewsters
+sudo dseditgroup -o edit -a alice -t user brewsters
+sudo dseditgroup -o edit -a bob -t user brewsters
+dseditgroup -o read brewsters
 ```
 
 The last command should list your users under `GroupMembership`.
@@ -82,13 +82,13 @@ Notes:
 ### Renaming the group later
 
 ```bash
-sudo dscl . -change /Groups/brewusers RecordName brewusers newname
+sudo dscl . -change /Groups/brewsters RecordName brewsters newname
 ```
 
 If that errors, delete and recreate it:
 
 ```bash
-sudo dseditgroup -o delete brewusers
+sudo dseditgroup -o delete brewsters
 sudo dseditgroup -o create newname
 ```
 
@@ -99,7 +99,7 @@ then re-add the members. **Update the sudoers rule in Step 5 to use the new name
 The safest method is to write the file directly and then validate it:
 
 ```bash
-sudo sh -c 'echo "%brewusers ALL=(brewadmin) NOPASSWD: /opt/homebrew/bin/brew" > /etc/sudoers.d/homebrew'
+sudo sh -c 'echo "%brewsters ALL=(brewadmin) NOPASSWD: /opt/homebrew/bin/brew" > /etc/sudoers.d/homebrew'
 sudo chown root:wheel /etc/sudoers.d/homebrew
 sudo chmod 440 /etc/sudoers.d/homebrew
 sudo visudo -cf /etc/sudoers.d/homebrew
@@ -118,7 +118,7 @@ sudo -l -U alice
 
 Expected:
 
-- File permissions `-r--r-----`, owned by `root wheel`, containing only the single `%brewusers ...` line.
+- File permissions `-r--r-----`, owned by `root wheel`, containing only the single `%brewsters ...` line.
 - No stray `homebrew.tmp` file. (If one exists, sudo ignores it, but you can remove it with `sudo rm /etc/sudoers.d/homebrew.tmp`.)
 - An `#includedir /private/etc/sudoers.d` line. Despite the `#`, this is a directive, not a comment.
 - Under `User alice may run the following commands`: `(brewadmin) NOPASSWD: /opt/homebrew/bin/brew`
@@ -157,7 +157,7 @@ Success looks like: the bottle downloads and pours into `/opt/homebrew/Cellar`, 
 
 | Symptom | Likely cause | Fix |
 |---|---|---|
-| Password prompt, or "not in the sudoers file" | User isn't in the group, or hasn't logged in since being added | Check `dseditgroup -o read brewusers`; log out and back in |
+| Password prompt, or "not in the sudoers file" | User isn't in the group, or hasn't logged in since being added | Check `dseditgroup -o read brewsters`; log out and back in |
 | `command not found: brew` | `~/.zshrc` not loaded | Run `source ~/.zshrc` or open a new window |
 | Permission or working-directory errors from brew | Running from a directory `brewadmin` can't access | `cd ~` first |
 | Rule has no effect after renaming the group | Sudoers still references the old group name | Update `/etc/sudoers.d/homebrew` |
@@ -168,7 +168,7 @@ Success looks like: the bottle downloads and pours into `/opt/homebrew/Cellar`, 
 From an admin account:
 
 ```bash
-sudo dseditgroup -o edit -a NEWUSER -t user brewusers
+sudo dseditgroup -o edit -a NEWUSER -t user brewsters
 ```
 
 Then give that user the `~/.zshrc` lines from Step 7.
@@ -176,5 +176,5 @@ Then give that user the `~/.zshrc` lines from Step 7.
 ## Final state
 
 - `/opt/homebrew` is owned by `brewadmin`, a standard (non-admin) user.
-- Members of `brewusers` run `brew` through `sudo -u brewadmin`, with no password.
+- Members of `brewsters` run `brew` through `sudo -u brewadmin`, with no password.
 - The sudoers rule permits only `/opt/homebrew/bin/brew`, as `brewadmin`.
